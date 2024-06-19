@@ -1,0 +1,15 @@
+env: "dev"
+server:
+    address: ":8080"
+    timeout: 10s
+use_database: false
+postgres:
+    host: "localhost"
+    port: 5432
+    user: "root"
+    pass: "root"
+    name: "wow"
+tokens:
+    secret: "secret"
+    access_ttl: 15m
+    refresh_ttl: 24h

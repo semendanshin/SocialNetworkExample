@@ -1,4 +1,6 @@
 **/*.env
-config/**.yaml
-!config/example.yaml
+**/config/**.yaml
+!**/config/example.yaml
 .idea
+**/keys/*
+!**/.gitkeep

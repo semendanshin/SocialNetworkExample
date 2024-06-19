@@ -1,0 +1,14 @@
+scalar UUID
+scalar Time
+
+type Query {
+    _empty: String @deprecated
+}
+
+type Mutation {
+    _empty: String @deprecated
+}
+
+type Subscription {
+    _empty: String @deprecated
+}

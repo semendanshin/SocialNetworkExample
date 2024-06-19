@@ -1,0 +1,37 @@
+type Comment {
+    id: UUID!
+
+    postId: UUID!
+    parentId: UUID
+    content: String!
+    authorId: UUID!
+
+    createdAt: Time!
+    updatedAt: Time!
+
+    author: User
+    post: Post
+    parent: Comment
+    children(limit: Int = 10, offset: Int = 0): [Comment!]
+}
+
+
+input NewComment {
+    postId: UUID!
+    parentId: UUID
+    content: String!
+    authorId: UUID!
+}
+
+extend type Query {
+    comment(id: UUID!): Comment
+    comments(postId: UUID!, limit: Int = 10, offset: Int = 0): [Comment!]
+}
+
+extend type Mutation {
+    createComment(input: NewComment!): Comment
+}
+
+extend type Subscription {
+    commentAdded(postId: UUID!, limit: Int = 10): Comment
+}

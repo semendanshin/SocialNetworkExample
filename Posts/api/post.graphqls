@@ -1,0 +1,35 @@
+type Post {
+    id: UUID!
+
+    title: String!
+    content: String!
+    authorId: UUID!
+    allowComments: Boolean!
+
+    createdAt: Time!
+    updatedAt: Time!
+
+    comments(limit: Int = 10, offset: Int = 0): [Comment!]!
+    author: User!
+}
+
+
+input NewPost {
+    title: String!
+    content: String!
+    authorId: UUID!
+    allowComments: Boolean = true
+}
+
+
+extend type Query {
+    post(id: UUID!): Post!
+    posts(limit: Int = 10, offset: Int = 0): [Post!]!
+}
+
+
+extend type Mutation {
+    createPost(input: NewPost!): Post!
+    disableComments(postId: UUID!): Post!
+    enableComments(postId: UUID!): Post!
+}
