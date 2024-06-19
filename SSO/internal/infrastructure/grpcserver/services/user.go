@@ -21,6 +21,7 @@ type UserServiceServer struct {
 	pb.UnimplementedUserServiceServer
 }
 
+// NewUserServiceServer creates a new UserServiceServer.
 func NewUserServiceServer(logger *slog.Logger, uuc usecases.UserUseCases) UserServiceServer {
 	return UserServiceServer{
 		logger: logger,
@@ -28,6 +29,7 @@ func NewUserServiceServer(logger *slog.Logger, uuc usecases.UserUseCases) UserSe
 	}
 }
 
+// GetMe gets the current user.
 func (u UserServiceServer) GetMe(ctx context.Context, empty *emptypb.Empty) (*pb.User, error) {
 	userIDStr := interceptors.GetUserID(ctx)
 	if userIDStr == "" {
@@ -47,6 +49,7 @@ func (u UserServiceServer) GetMe(ctx context.Context, empty *emptypb.Empty) (*pb
 	return mappers.UserDomainToUserResponse(user), nil
 }
 
+// GetUser gets a user by ID.
 func (u UserServiceServer) GetUser(ctx context.Context, request *pb.GetUserRequest) (*pb.User, error) {
 	userID, err := uuid.Parse(request.Id)
 	if err != nil {
@@ -61,6 +64,7 @@ func (u UserServiceServer) GetUser(ctx context.Context, request *pb.GetUserReque
 	return mappers.UserDomainToUserResponse(user), nil
 }
 
+// ListUsers lists users.
 func (u UserServiceServer) ListUsers(ctx context.Context, request *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
 	users, err := u.uuc.GetAll(ctx, int(request.Limit), int(request.Offset))
 	if err != nil {
@@ -77,6 +81,7 @@ func (u UserServiceServer) ListUsers(ctx context.Context, request *pb.ListUsersR
 	return &pb.ListUsersResponse{Users: usersResponse}, nil
 }
 
+// CreateUser creates a user.
 func (u UserServiceServer) CreateUser(ctx context.Context, request *pb.CreateUserRequest) (*pb.User, error) {
 	userDto := mappers.CreateUserRequestToUserDTO(request)
 	user, err := u.uuc.Create(ctx, userDto)
@@ -87,6 +92,7 @@ func (u UserServiceServer) CreateUser(ctx context.Context, request *pb.CreateUse
 	return mappers.UserDomainToUserResponse(user), nil
 }
 
+// UpdateUser updates a user.
 func (u UserServiceServer) UpdateUser(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
 	userIDStr := interceptors.GetUserID(ctx)
 	userID, err := uuid.Parse(userIDStr)
@@ -103,6 +109,7 @@ func (u UserServiceServer) UpdateUser(ctx context.Context, request *pb.UpdateUse
 	return mappers.UserDomainToUserResponse(user), nil
 }
 
+// DeleteUser deletes a user.
 func (u UserServiceServer) DeleteUser(ctx context.Context, empty *emptypb.Empty) (*emptypb.Empty, error) {
 	userIDStr := interceptors.GetUserID(ctx)
 	userID, err := uuid.Parse(userIDStr)

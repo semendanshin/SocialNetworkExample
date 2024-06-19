@@ -14,6 +14,7 @@ import (
 	"os"
 )
 
+// Environment constants
 const (
 	Development = "dev"
 	Production  = "prod"

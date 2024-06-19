@@ -124,6 +124,7 @@ func (m *Manager) Parse(tokenString string) (*jwt.Token, error) {
 	return token, nil
 }
 
+// ReadPublicKey reads a public key from a file
 func ReadPublicKey(publicKeyPath string) (*rsa.PublicKey, error) {
 	f, err := os.ReadFile(publicKeyPath)
 	if err != nil {
@@ -137,6 +138,7 @@ func ReadPublicKey(publicKeyPath string) (*rsa.PublicKey, error) {
 	return key, nil
 }
 
+// ReadPrivateKey reads a private key from a file
 func ReadPrivateKey(privateKeyPath string) (*rsa.PrivateKey, error) {
 	f, err := os.ReadFile(privateKeyPath)
 	if err != nil {

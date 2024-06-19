@@ -13,10 +13,12 @@ import (
 
 var _ usecases.UserRepositoryInterface = &GormUserRepository{}
 
+// GormUserRepository is a repository for Gorm databases.
 type GormUserRepository struct {
 	AbstractGormRepository[*domain.User, entities.User]
 }
 
+// NewGormUserRepository creates a new GormUserRepository.
 func NewGormUserRepository(db *gorm.DB, logger *slog.Logger) *GormUserRepository {
 	return &GormUserRepository{
 		AbstractGormRepository: NewAbstractGormRepository[*domain.User, entities.User](
@@ -28,6 +30,7 @@ func NewGormUserRepository(db *gorm.DB, logger *slog.Logger) *GormUserRepository
 	}
 }
 
+// GetByUsername gets a user by username.
 func (r *GormUserRepository) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
 	const op = "GormUserRepository.GetByUsername"
 	var entity entities.User
@@ -41,6 +44,7 @@ func (r *GormUserRepository) GetByUsername(ctx context.Context, username string)
 	return r.entityToModel(&entity), nil
 }
 
+// GetByEmail gets a user by email.
 func (r *GormUserRepository) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
 	const op = "GormUserRepository.GetByEmail"
 	var entity entities.User

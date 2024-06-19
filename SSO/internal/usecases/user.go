@@ -9,6 +9,7 @@ import (
 	contractUseCases "SSO/internal/contracts/usecases"
 )
 
+// UserRepositoryInterface is an interface for user repositories.
 type UserRepositoryInterface interface {
 	contractUseCases.AbstractRepositoryInterface[*domain.User]
 	GetByUsername(ctx context.Context, username string) (*domain.User, error)
@@ -17,11 +18,13 @@ type UserRepositoryInterface interface {
 
 var _ contractUseCases.UserUseCases = &UserUseCases{}
 
+// UserUseCases is a use case for users.
 type UserUseCases struct {
 	Repository UserRepositoryInterface
 	contractUseCases.AbstractUseCases[*domain.User]
 }
 
+// NewUserUseCases creates a new UserUseCases.
 func NewUserUseCases(repository UserRepositoryInterface) *UserUseCases {
 	return &UserUseCases{
 		Repository:       repository,
@@ -29,14 +32,17 @@ func NewUserUseCases(repository UserRepositoryInterface) *UserUseCases {
 	}
 }
 
+// GetByUsername gets a user by username.
 func (u *UserUseCases) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
 	return u.Repository.GetByUsername(ctx, username)
 }
 
+// GetByEmail gets a user by email.
 func (u *UserUseCases) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
 	return u.Repository.GetByEmail(ctx, email)
 }
 
+// Login logs in a user.
 func (u *UserUseCases) Login(ctx context.Context, email string, password string) (*domain.User, error) {
 	user, err := u.Repository.GetByEmail(ctx, email)
 	if err != nil {
@@ -51,6 +57,7 @@ func (u *UserUseCases) Login(ctx context.Context, email string, password string)
 	return user, nil
 }
 
+// Create creates a new user.
 func (u *UserUseCases) Create(ctx context.Context, dto *contractUseCases.CreateUserDTO) (*domain.User, error) {
 	user := &domain.User{
 		UUID:           uuid.New(),
@@ -61,6 +68,7 @@ func (u *UserUseCases) Create(ctx context.Context, dto *contractUseCases.CreateU
 	return user, u.Repository.Create(ctx, user)
 }
 
+// Update updates a user.
 func (u *UserUseCases) Update(ctx context.Context, ID uuid.UUID, dto *contractUseCases.UpdateUserDTO) (*domain.User, error) {
 	user, err := u.Repository.GetByID(ctx, ID)
 	if err != nil {

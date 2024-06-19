@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// User is a domain model for users.
 type User struct {
 	UUID           uuid.UUID `json:"uuid"`
 	Username       string    `json:"username"`
@@ -14,10 +15,12 @@ type User struct {
 	UpdatedAt      time.Time `json:"updated_at"`
 }
 
+// GetID returns the ID of the user.
 func (u *User) GetID() uuid.UUID {
 	return u.UUID
 }
 
+// SetID sets the ID of the user.
 func (u *User) SetID(id uuid.UUID) {
 	u.UUID = id
 }

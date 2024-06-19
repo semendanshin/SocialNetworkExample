@@ -19,6 +19,7 @@ type AuthServiceServer struct {
 	pb.UnimplementedAuthServiceServer
 }
 
+// NewAuthServiceServer creates a new AuthServiceServer.
 func NewAuthServiceServer(logger *slog.Logger, uuc usecases.UserUseCases, jwtManager *jwt.Manager) AuthServiceServer {
 	return AuthServiceServer{
 		logger:     logger,
@@ -27,6 +28,7 @@ func NewAuthServiceServer(logger *slog.Logger, uuc usecases.UserUseCases, jwtMan
 	}
 }
 
+// Login logs in a user.
 func (a AuthServiceServer) Login(ctx context.Context, request *pb.LoginRequest) (*pb.LoginResponse, error) {
 	user, err := a.uuc.Login(ctx, request.Email, request.Password)
 	if err != nil {
@@ -44,13 +46,14 @@ func (a AuthServiceServer) Login(ctx context.Context, request *pb.LoginRequest) 
 	}, nil
 }
 
+// RefreshToken refreshes a token.
 func (a AuthServiceServer) RefreshToken(ctx context.Context, request *pb.RefreshTokenRequest) (*pb.RefreshTokenResponse, error) {
-	userIdStr, err := a.jwtManager.ValidatePair(request.AccessToken, request.RefreshToken)
+	userIDStr, err := a.jwtManager.ValidatePair(request.AccessToken, request.RefreshToken)
 	if err != nil {
 		return nil, err
 	}
 
-	tokens, err := a.jwtManager.GeneratePair(userIdStr)
+	tokens, err := a.jwtManager.GeneratePair(userIDStr)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +64,7 @@ func (a AuthServiceServer) RefreshToken(ctx context.Context, request *pb.Refresh
 	}, nil
 }
 
+// Logout logs out a user.
 func (a AuthServiceServer) Logout(ctx context.Context, request *pb.LogoutRequest) (*emptypb.Empty, error) {
 	//TODO implement me
 	panic("implement me")

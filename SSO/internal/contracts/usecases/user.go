@@ -6,18 +6,21 @@ import (
 	"github.com/google/uuid"
 )
 
+// CreateUserDTO is a data transfer object for creating a user.
 type CreateUserDTO struct {
 	Username string
 	Email    string
 	Password string
 }
 
+// UpdateUserDTO is a data transfer object for updating a user.
 type UpdateUserDTO struct {
 	Username string
 	Email    string
 	Password string
 }
 
+// UserUseCases is a use case for users.
 type UserUseCases interface {
 	Create(ctx context.Context, dto *CreateUserDTO) (*domain.User, error)
 	GetByID(ctx context.Context, id uuid.UUID) (*domain.User, error)

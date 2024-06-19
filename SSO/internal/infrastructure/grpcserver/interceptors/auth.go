@@ -11,8 +11,10 @@ import (
 	"strings"
 )
 
+// UserIDKey is the key used to store the user ID in the context.
 const UserIDKey key = "user_id"
 
+// UnprotectedMethods is a map of unprotected methods.
 var UnprotectedMethods = map[string]struct{}{
 	"/AuthService/Login":        {},
 	"/AuthService/RefreshToken": {},
@@ -89,6 +91,7 @@ func AuthInterceptor(w jwt.Parser, logger *slog.Logger) grpc.UnaryServerIntercep
 	}
 }
 
+// GetUserID returns the user ID from the context.
 func GetUserID(ctx context.Context) string {
 	userID, _ := ctx.Value(UserIDKey).(string)
 	return userID

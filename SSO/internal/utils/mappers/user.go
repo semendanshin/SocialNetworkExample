@@ -9,6 +9,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+// UserDomainToUserResponse maps a domain user to a user response.
 func UserDomainToUserResponse(domainUser *domain.User) *pb.User {
 	return &pb.User{
 		Id:        domainUser.UUID.String(),
@@ -19,6 +20,7 @@ func UserDomainToUserResponse(domainUser *domain.User) *pb.User {
 	}
 }
 
+// CreateUserRequestToUserDTO maps a create user request to a create user DTO.
 func CreateUserRequestToUserDTO(request *pb.CreateUserRequest) *usecases.CreateUserDTO {
 	return &usecases.CreateUserDTO{
 		Username: request.Username,
@@ -27,6 +29,7 @@ func CreateUserRequestToUserDTO(request *pb.CreateUserRequest) *usecases.CreateU
 	}
 }
 
+// UserDomainToUserEntity maps a domain user to a user entity.
 func UserDomainToUserEntity(domainUser *domain.User) *entities.User {
 	return &entities.User{
 		ID:             domainUser.UUID,
@@ -38,6 +41,7 @@ func UserDomainToUserEntity(domainUser *domain.User) *entities.User {
 	}
 }
 
+// UserEntityToUserDomain maps a user entity to a domain user.
 func UserEntityToUserDomain(entity *entities.User) *domain.User {
 	pass, err := hex.DecodeString(entity.HashedPassword)
 	if err != nil {
@@ -54,6 +58,7 @@ func UserEntityToUserDomain(entity *entities.User) *domain.User {
 	}
 }
 
+// UpdateUserRequestToUserDTO maps an update user request to an update user DTO.
 func UpdateUserRequestToUserDTO(request *pb.UpdateUserRequest) *usecases.UpdateUserDTO {
 	return &usecases.UpdateUserDTO{
 		Username: request.Username,
