@@ -1,0 +1,22 @@
+services:
+  minio:
+    image: minio/minio
+    container_name: minio_container
+    restart: always
+    command: server /data --console-address ":9001" --address ":9000"
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    env_file:
+      - .env
+    volumes:
+        - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+
+volumes:
+    minio_data:

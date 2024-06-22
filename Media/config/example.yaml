@@ -1,0 +1,15 @@
+env: "dev"
+server:
+  address: ":8080"
+  timeout: 10s
+postgres:
+  host: "localhost"
+  port: 5432
+  user: "root"
+  pass: "root"
+  name: "wow"
+tokens:
+  private_key_path: "keys/private.pem"
+  public_key_path: "keys/public.pem"
+  access_ttl: 15m
+  refresh_ttl: 24h
